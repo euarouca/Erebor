@@ -3,444 +3,1341 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Erebor - Soluções em Software</title>
+    <title>Erebor Software — Soluções Tecnológicas</title>
+    <meta name="description" content="Desenvolvimento de software sob medida, automação de processos e sistemas integrados. Lucas D'anconia — Santa Rita do Sapucaí, MG.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
     <style>
+        /* ── TOKENS ── */
         :root {
-            --primary: #2c3e50;
-            --secondary: #e67e22;
-            --light: #ecf0f1;
-            --dark: #1a252f;
-            --success: #2ecc71;
-            --erebor-gold: #f1c40f;
+            --gold:      #c9a84c;
+            --gold-lt:   #e8c97a;
+            --gold-dk:   #8a6a20;
+            --stone:     #1c2330;
+            --stone-mid: #232e3f;
+            --stone-lt:  #2e3d52;
+            --ash:       #8a9ab5;
+            --white:     #f0ece4;
+            --off:       #d4ccbc;
+            --danger:    #c0392b;
+            --success:   #27ae60;
+
+            --font-display: 'Cinzel', Georgia, serif;
+            --font-body:    'Inter', sans-serif;
+
+            --radius: 6px;
+            --trans:  0.28s cubic-bezier(.4,0,.2,1);
+            --shadow: 0 8px 32px rgba(0,0,0,.45);
         }
-        
+
+        /* ── RESET ── */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            color: var(--dark);
-            line-height: 1.6;
+            font-family: var(--font-body);
+            background: var(--stone);
+            color: var(--white);
+            line-height: 1.7;
+            overflow-x: hidden;
         }
-        
+        img { max-width: 100%; display: block; }
+        a { text-decoration: none; color: inherit; }
+
+        /* ── UTILITY ── */
+        .container { width: min(90%, 1140px); margin-inline: auto; }
+        .gold { color: var(--gold); }
+        .section-label {
+            font-family: var(--font-display);
+            font-size: .72rem;
+            letter-spacing: .25em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: .6rem;
+        }
+        .section-title {
+            font-family: var(--font-display);
+            font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+            color: var(--white);
+            line-height: 1.2;
+        }
+        .section-title span { color: var(--gold); }
+        .divider {
+            width: 60px; height: 3px;
+            background: linear-gradient(90deg, var(--gold), transparent);
+            margin: 1.2rem 0 2.4rem;
+        }
+
+        /* ── NOISE OVERLAY ── */
+        body::before {
+            content: '';
+            position: fixed; inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+            opacity: .025;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* ════════════════════════════════
+           HEADER
+        ════════════════════════════════ */
         header {
-            background-color: var(--primary);
-            color: white;
+            position: fixed; top: 0; left: 0; right: 0;
+            z-index: 900;
             padding: 1rem 0;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            background: rgba(28, 35, 48, 0.85);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(201,168,76,.15);
+            transition: padding var(--trans);
         }
-        
-        .container {
-            width: 85%;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .header-content {
+        header.scrolled { padding: .6rem 0; }
+        .header-inner {
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
         }
-        
-        
         .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            letter-spacing: .08em;
+            color: var(--white);
+            display: flex; align-items: center; gap: .5rem;
         }
-        
-        .logo span {
-            color: var(--erebor-gold);
-            font-style: italic;
+        .logo-icon {
+            width: 32px; height: 32px;
+            background: linear-gradient(135deg, var(--gold), var(--gold-dk));
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            display: flex; align-items: center; justify-content: center;
+            font-size: .7rem;
+            color: var(--stone);
+            font-weight: 700;
         }
-        
-        nav ul {
-            display: flex;
-            list-style: none;
+        .logo em { color: var(--gold); font-style: normal; }
+
+        nav { display: flex; align-items: center; gap: 2rem; }
+        nav a {
+            font-size: .85rem;
+            font-weight: 500;
+            letter-spacing: .06em;
+            color: var(--ash);
+            transition: color var(--trans);
+            position: relative;
         }
-        
-        nav ul li {
-            margin-left: 2rem;
+        nav a::after {
+            content: '';
+            position: absolute; bottom: -4px; left: 0; right: 100%;
+            height: 1px; background: var(--gold);
+            transition: right var(--trans);
         }
-        
-        nav ul li a {
-            color: white;
-            text-decoration: none;
-            transition: color 0.3s;
+        nav a:hover { color: var(--gold); }
+        nav a:hover::after { right: 0; }
+
+        .nav-cta {
+            padding: .5rem 1.2rem;
+            border: 1px solid var(--gold);
+            border-radius: var(--radius);
+            color: var(--gold) !important;
+            font-size: .82rem;
+            font-weight: 600;
+            letter-spacing: .06em;
+            transition: background var(--trans), color var(--trans) !important;
         }
-        
-        nav ul li a:hover {
-            color: var(--erebor-gold);
+        .nav-cta:hover {
+            background: var(--gold) !important;
+            color: var(--stone) !important;
         }
-        
+        .nav-cta::after { display: none; }
+
+        /* Hamburger */
+        .hamburger {
+            display: none;
+            flex-direction: column; gap: 5px;
+            cursor: pointer; padding: 4px;
+            background: none; border: none;
+        }
+        .hamburger span {
+            display: block; width: 24px; height: 2px;
+            background: var(--white);
+            transition: transform var(--trans), opacity var(--trans);
+        }
+        .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .hamburger.open span:nth-child(2) { opacity: 0; }
+        .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+        /* ════════════════════════════════
+           HERO
+        ════════════════════════════════ */
         .hero {
-            background: linear-gradient(135deg, var(--primary), #34495e);
-            color: white;
-            padding: 8rem 0 4rem;
-            text-align: center;
+            min-height: 100vh;
+            display: flex; align-items: center;
+            position: relative;
+            overflow: hidden;
+            padding: 7rem 0 4rem;
+        }
+        .hero-bg {
+            position: absolute; inset: 0;
+            background:
+                linear-gradient(180deg, rgba(28,35,48,0) 0%, rgba(28,35,48,.7) 60%, var(--stone) 100%),
+                linear-gradient(135deg, rgba(201,168,76,.08) 0%, transparent 50%);
+        }
+        /* Erebor mountain image */
+        .hero-mountain {
+            position: absolute; inset: 0;
+            background: url('/erebor.png') center/cover no-repeat;
+            opacity: .35;
+            filter: saturate(.6) brightness(.7);
+        }
+        /* Geometric rune pattern */
+        .hero-rune {
+            position: absolute;
+            right: -80px; top: 50%;
+            transform: translateY(-50%);
+            width: 520px; height: 520px;
+            opacity: .04;
+        }
+        .hero-rune svg { width: 100%; height: 100%; }
+
+        .hero-content {
+            position: relative; z-index: 2;
+            max-width: 680px;
+        }
+        .hero-eyebrow {
+            display: inline-flex; align-items: center; gap: .6rem;
+            font-size: .75rem;
+            letter-spacing: .2em;
+            text-transform: uppercase;
+            color: var(--gold);
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+        }
+        .hero-eyebrow::before, .hero-eyebrow::after {
+            content: '';
+            display: block; width: 24px; height: 1px;
+            background: var(--gold);
+        }
+        .hero h1 {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 5vw, 3.6rem);
+            line-height: 1.1;
+            color: var(--white);
+            margin-bottom: 1.4rem;
+        }
+        .hero h1 em {
+            font-style: normal;
+            color: var(--gold);
+            display: block;
+        }
+        .hero-desc {
+            font-size: 1.05rem;
+            color: var(--off);
+            max-width: 520px;
+            margin-bottom: 2.5rem;
+            font-weight: 300;
+        }
+        .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+        .btn {
+            display: inline-flex; align-items: center; gap: .5rem;
+            padding: .8rem 1.8rem;
+            border-radius: var(--radius);
+            font-size: .9rem;
+            font-weight: 600;
+            letter-spacing: .04em;
+            cursor: pointer;
+            border: none;
+            transition: all var(--trans);
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--gold), var(--gold-dk));
+            color: var(--stone);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(201,168,76,.35);
+        }
+        .btn-outline {
+            background: transparent;
+            color: var(--white);
+            border: 1px solid rgba(201,168,76,.4);
+        }
+        .btn-outline:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+            transform: translateY(-2px);
+        }
+
+        /* Stats strip */
+        .hero-stats {
+            position: relative; z-index: 2;
+            display: flex; gap: 3rem;
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(201,168,76,.15);
+        }
+        .stat-num {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            color: var(--gold);
+            line-height: 1;
+        }
+        .stat-label {
+            font-size: .78rem;
+            color: var(--ash);
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            margin-top: .25rem;
+        }
+
+        /* ════════════════════════════════
+           SERVICES
+        ════════════════════════════════ */
+        .services-section { padding: 6rem 0; }
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+        .service-card {
+            background: var(--stone-mid);
+            border: 1px solid rgba(201,168,76,.1);
+            border-radius: 10px;
+            padding: 2.5rem;
+            transition: all var(--trans);
             position: relative;
             overflow: hidden;
         }
-        
-        .hero::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('https://via.placeholder.com/1920x1080?text=Erebor') center/cover no-repeat;
-            opacity: 0.15;
-            z-index: 0;
+        .service-card::before {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--gold), transparent);
+            opacity: 0;
+            transition: opacity var(--trans);
         }
-        
-        .hero .container {
-            position: relative;
-            z-index: 1;
-        }
-        
-        .hero h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-        
-        .hero p {
-            font-size: 1.2rem;
-            max-width: 700px;
-            margin: 0 auto 2rem;
-        }
-        
-        .btn {
-            display: inline-block;
-            background-color: var(--secondary);
-            color: white;
-            padding: 0.8rem 1.5rem;
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: all 0.3s;
-            border: 2px solid transparent;
-        }
-        
-        .btn:hover {
-            background-color: transparent;
-            border-color: var(--secondary);
-            color: var(--secondary);
-        }
-        
-        section {
-            padding: 4rem 0;
-        }
-        
-        .section-title {
-            text-align: center;
-            margin-bottom: 3rem;
-            color: var(--primary);
-            position: relative;
-        }
-        
-        .section-title::after {
-            content: "";
-            display: block;
-            width: 80px;
-            height: 4px;
-            background-color: var(--secondary);
-            margin: 1rem auto 0;
-        }
-        
-        .services {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-        
-        .service-card {
-            background-color: white;
-            border-radius: 8px;
-            padding: 2rem;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: all 0.3s;
-            border-top: 4px solid var(--secondary);
-        }
-        
         .service-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+            border-color: rgba(201,168,76,.3);
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px rgba(0,0,0,.4);
         }
-        
-        .service-card h3 {
-            color: var(--secondary);
-            margin-top: 1rem;
-        }
-        
-        .about {
-            background-color: var(--light);
-        }
-        
-        .about-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            align-items: center;
-        }
-        
-        .about-text h2 {
-            color: var(--primary);
-        }
-        
-        .contact {
-            background-color: var(--primary);
-            color: white;
-        }
-        
-        .contact-info {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-bottom: 3rem;
-        }
-        
-        .contact-card {
-            background-color: rgba(255,255,255,0.1);
-            padding: 1.5rem;
-            border-radius: 8px;
-            text-align: center;
-            transition: all 0.3s;
-        }
-        
-        .contact-card:hover {
-            background-color: rgba(255,255,255,0.2);
-            transform: translateY(-5px);
-        }
-        
-        .contact-card i {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            color: var(--erebor-gold);
-        }
-        
-        .contact-form {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        
-        .form-group {
+        .service-card:hover::before { opacity: 1; }
+        .service-icon {
+            width: 52px; height: 52px;
+            background: linear-gradient(135deg, rgba(201,168,76,.15), rgba(201,168,76,.05));
+            border: 1px solid rgba(201,168,76,.2);
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.3rem;
+            color: var(--gold);
             margin-bottom: 1.5rem;
         }
-        
+        .service-card h3 {
+            font-family: var(--font-display);
+            font-size: 1.05rem;
+            color: var(--white);
+            margin-bottom: .8rem;
+        }
+        .service-card p { color: var(--ash); font-size: .9rem; line-height: 1.7; }
+        .service-tags {
+            display: flex; flex-wrap: wrap; gap: .4rem;
+            margin-top: 1.5rem;
+        }
+        .tag {
+            font-size: .72rem;
+            padding: .2rem .7rem;
+            border-radius: 20px;
+            background: rgba(201,168,76,.1);
+            color: var(--gold-lt);
+            letter-spacing: .05em;
+        }
+
+        /* ════════════════════════════════
+           PROJECTS (GitHub-ready)
+        ════════════════════════════════ */
+        .projects-section {
+            padding: 6rem 0;
+            background: var(--stone-mid);
+            border-top: 1px solid rgba(201,168,76,.08);
+            border-bottom: 1px solid rgba(201,168,76,.08);
+        }
+        .projects-header {
+            display: flex; align-items: flex-end;
+            justify-content: space-between;
+            flex-wrap: wrap; gap: 1rem;
+            margin-bottom: 3rem;
+        }
+        .projects-link {
+            font-size: .85rem;
+            color: var(--gold);
+            display: flex; align-items: center; gap: .4rem;
+            transition: gap var(--trans);
+        }
+        .projects-link:hover { gap: .8rem; }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+        .project-card {
+            background: var(--stone);
+            border: 1px solid rgba(201,168,76,.1);
+            border-radius: 10px;
+            padding: 1.8rem;
+            transition: all var(--trans);
+            display: flex; flex-direction: column;
+        }
+        .project-card:hover {
+            border-color: rgba(201,168,76,.3);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow);
+        }
+        .project-card-top {
+            display: flex; align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+        .project-lang {
+            display: flex; align-items: center; gap: .4rem;
+            font-size: .78rem; color: var(--ash);
+        }
+        .lang-dot {
+            width: 10px; height: 10px;
+            border-radius: 50%;
+            background: var(--gold);
+        }
+        .project-links { display: flex; gap: .8rem; }
+        .project-links a {
+            color: var(--ash);
+            font-size: .9rem;
+            transition: color var(--trans);
+        }
+        .project-links a:hover { color: var(--gold); }
+        .project-name {
+            font-family: var(--font-display);
+            font-size: 1rem;
+            color: var(--white);
+            margin-bottom: .6rem;
+        }
+        .project-desc { font-size: .88rem; color: var(--ash); flex: 1; }
+        .project-stats {
+            display: flex; gap: 1.2rem;
+            margin-top: 1.2rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255,255,255,.05);
+            font-size: .78rem; color: var(--ash);
+        }
+        .project-stats span { display: flex; align-items: center; gap: .3rem; }
+
+        /* Loading skeleton */
+        .skeleton {
+            background: linear-gradient(90deg, var(--stone-lt) 25%, rgba(255,255,255,.04) 50%, var(--stone-lt) 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: 4px;
+        }
+        @keyframes shimmer { to { background-position: -200% 0; } }
+
+        /* ════════════════════════════════
+           ABOUT
+        ════════════════════════════════ */
+        .about-section { padding: 6rem 0; }
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            align-items: center;
+        }
+        .about-image-wrap {
+            position: relative;
+        }
+        .about-img {
+            width: 100%;
+            border-radius: 10px;
+            object-fit: cover;
+            aspect-ratio: 4/5;
+            filter: saturate(.85);
+        }
+        .about-badge {
+            position: absolute;
+            bottom: -1.5rem; right: -1.5rem;
+            background: var(--gold);
+            color: var(--stone);
+            padding: 1.2rem 1.8rem;
+            border-radius: 10px;
+            text-align: center;
+            font-family: var(--font-display);
+            box-shadow: 0 12px 30px rgba(0,0,0,.5);
+        }
+        .about-badge strong { display: block; font-size: 1.6rem; }
+        .about-badge small { font-size: .72rem; letter-spacing: .1em; }
+        .about-text h2 {
+            font-family: var(--font-display);
+            font-size: clamp(1.4rem, 3vw, 2rem);
+            color: var(--white);
+            margin-bottom: .5rem;
+        }
+        .about-company {
+            font-size: .82rem;
+            color: var(--gold);
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            font-weight: 500;
+            margin-bottom: 1.8rem;
+        }
+        .about-text p { color: var(--ash); font-size: .95rem; margin-bottom: 1rem; }
+        .about-items { list-style: none; margin: 1.5rem 0; display: flex; flex-direction: column; gap: .8rem; }
+        .about-items li {
+            display: flex; align-items: flex-start; gap: .8rem;
+            font-size: .9rem; color: var(--off);
+        }
+        .about-items li i { color: var(--gold); margin-top: .2rem; flex-shrink: 0; }
+
+        /* Info grid */
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: .8rem;
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: var(--stone-mid);
+            border-radius: 10px;
+            border: 1px solid rgba(201,168,76,.1);
+        }
+        .info-item { font-size: .82rem; }
+        .info-item .lbl { color: var(--ash); font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; }
+        .info-item .val { color: var(--white); font-weight: 500; margin-top: .15rem; }
+
+        /* ════════════════════════════════
+           PROCESS
+        ════════════════════════════════ */
+        .process-section {
+            padding: 6rem 0;
+            background: var(--stone-mid);
+            border-top: 1px solid rgba(201,168,76,.08);
+        }
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0;
+            margin-top: 3rem;
+            position: relative;
+        }
+        .process-steps::before {
+            content: '';
+            position: absolute;
+            top: 28px; left: 10%; right: 10%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(201,168,76,.3), transparent);
+        }
+        .step {
+            text-align: center;
+            padding: 0 1.5rem;
+            position: relative;
+        }
+        .step-num {
+            width: 56px; height: 56px;
+            margin: 0 auto 1.5rem;
+            border-radius: 50%;
+            background: var(--stone);
+            border: 2px solid rgba(201,168,76,.3);
+            display: flex; align-items: center; justify-content: center;
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            color: var(--gold);
+            position: relative; z-index: 1;
+            transition: all var(--trans);
+        }
+        .step:hover .step-num {
+            background: var(--gold);
+            color: var(--stone);
+            border-color: var(--gold);
+        }
+        .step h3 {
+            font-family: var(--font-display);
+            font-size: .92rem;
+            color: var(--white);
+            margin-bottom: .5rem;
+        }
+        .step p { font-size: .82rem; color: var(--ash); }
+
+        /* ════════════════════════════════
+           TECH STACK
+        ════════════════════════════════ */
+        .stack-section { padding: 5rem 0; }
+        .stack-grid {
+            display: flex; flex-wrap: wrap;
+            gap: .8rem;
+            margin-top: 2.5rem;
+        }
+        .stack-pill {
+            display: flex; align-items: center; gap: .5rem;
+            padding: .5rem 1.1rem;
+            background: var(--stone-mid);
+            border: 1px solid rgba(201,168,76,.12);
+            border-radius: 30px;
+            font-size: .82rem;
+            color: var(--off);
+            transition: all var(--trans);
+        }
+        .stack-pill i { color: var(--gold); font-size: .9rem; }
+        .stack-pill:hover {
+            border-color: rgba(201,168,76,.4);
+            color: var(--gold-lt);
+            transform: translateY(-2px);
+        }
+
+        /* ════════════════════════════════
+           CONTACT
+        ════════════════════════════════ */
+        .contact-section {
+            padding: 6rem 0;
+            background: var(--stone-mid);
+            border-top: 1px solid rgba(201,168,76,.08);
+        }
+        .contact-layout {
+            display: grid;
+            grid-template-columns: 1fr 1.4fr;
+            gap: 5rem;
+            align-items: start;
+        }
+        .contact-info-card {
+            display: flex; align-items: flex-start; gap: 1rem;
+            margin-bottom: 1.8rem;
+        }
+        .contact-icon {
+            width: 44px; height: 44px; flex-shrink: 0;
+            background: rgba(201,168,76,.1);
+            border: 1px solid rgba(201,168,76,.2);
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--gold);
+        }
+        .contact-info-card h4 {
+            font-size: .78rem;
+            color: var(--ash);
+            text-transform: uppercase;
+            letter-spacing: .1em;
+            margin-bottom: .2rem;
+        }
+        .contact-info-card p, .contact-info-card a {
+            font-size: .95rem;
+            color: var(--white);
+            transition: color var(--trans);
+        }
+        .contact-info-card a:hover { color: var(--gold); }
+
+        .social-row {
+            display: flex; gap: .8rem;
+            margin-top: 2.5rem;
+        }
+        .social-btn {
+            width: 44px; height: 44px;
+            border: 1px solid rgba(201,168,76,.2);
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--ash);
+            font-size: 1.1rem;
+            transition: all var(--trans);
+        }
+        .social-btn:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+            transform: translateY(-3px);
+        }
+
+        /* Form */
+        .contact-form {
+            background: var(--stone);
+            border: 1px solid rgba(201,168,76,.1);
+            border-radius: 12px;
+            padding: 2.5rem;
+        }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .form-group { margin-bottom: 1.3rem; }
         .form-group label {
             display: block;
-            margin-bottom: 0.5rem;
+            font-size: .78rem;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+            color: var(--ash);
+            margin-bottom: .5rem;
         }
-        
         .form-group input,
-        .form-group textarea {
+        .form-group textarea,
+        .form-group select {
             width: 100%;
-            padding: 0.8rem;
-            border-radius: 5px;
-            border: none;
-            background-color: rgba(255,255,255,0.9);
+            padding: .8rem 1rem;
+            background: var(--stone-mid);
+            border: 1px solid rgba(201,168,76,.12);
+            border-radius: var(--radius);
+            color: var(--white);
+            font-family: var(--font-body);
+            font-size: .9rem;
+            outline: none;
+            transition: border-color var(--trans);
         }
-        
-        .form-group textarea {
-            height: 150px;
-        }
-        
-        footer {
-            background-color: var(--dark);
-            color: white;
-            text-align: center;
-            padding: 2rem 0;
-        }
-        
-        .footer-logo {
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
-            font-weight: bold;
-        }
-        
-        .footer-logo span {
-            color: var(--erebor-gold);
-            font-style: italic;
-        }
-        
-        .footer-info {
-            margin-bottom: 1rem;
-            line-height: 1.8;
-        }
-        
-        .social-links {
-            margin: 1.5rem 0;
-        }
-        
-        .social-links a {
-            color: white;
-            margin: 0 0.5rem;
-            font-size: 1.5rem;
-            transition: color 0.3s;
-        }
-        
-        .social-links a:hover {
-            color: var(--erebor-gold);
-        }
+        .form-group input::placeholder,
+        .form-group textarea::placeholder { color: var(--ash); opacity: .6; }
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus { border-color: rgba(201,168,76,.5); }
+        .form-group textarea { height: 130px; resize: vertical; }
+        .form-group select option { background: var(--stone-mid); }
 
-        .form-message {
-            padding: 1rem;
-            margin: 1rem 0;
-            border-radius: 5px;
+        .btn-submit {
+            width: 100%;
+            padding: .95rem;
+            background: linear-gradient(135deg, var(--gold), var(--gold-dk));
+            color: var(--stone);
+            border: none;
+            border-radius: var(--radius);
+            font-family: var(--font-display);
+            font-size: .9rem;
+            font-weight: 700;
+            letter-spacing: .08em;
+            cursor: pointer;
+            transition: all var(--trans);
+        }
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(201,168,76,.35);
+        }
+        .form-feedback {
+            padding: .9rem 1.2rem;
+            border-radius: var(--radius);
+            font-size: .88rem;
+            margin-top: 1rem;
             display: none;
         }
-        
-        .form-message.success {
-            background-color: #d4edda;
-            color: #155724;
+        .form-feedback.success {
+            background: rgba(39,174,96,.15);
+            border: 1px solid rgba(39,174,96,.3);
+            color: #6fcf97;
             display: block;
         }
-        
-        .form-message.error {
-            background-color: #f8d7da;
-            color: #721c24;
+        .form-feedback.error {
+            background: rgba(192,57,43,.15);
+            border: 1px solid rgba(192,57,43,.3);
+            color: #eb8484;
             display: block;
         }
-        
+
+        /* ════════════════════════════════
+           FOOTER
+        ════════════════════════════════ */
+        footer {
+            background: var(--stone);
+            border-top: 1px solid rgba(201,168,76,.1);
+            padding: 3rem 0;
+        }
+        .footer-inner {
+            display: flex; align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap; gap: 1.5rem;
+        }
+        .footer-logo {
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            color: var(--white);
+        }
+        .footer-logo em { color: var(--gold); font-style: normal; }
+        .footer-meta {
+            text-align: center;
+            font-size: .78rem;
+            color: var(--ash);
+            line-height: 1.9;
+        }
+        .footer-right {
+            display: flex; gap: 1rem;
+        }
+        .footer-right a {
+            font-size: .82rem;
+            color: var(--ash);
+            transition: color var(--trans);
+        }
+        .footer-right a:hover { color: var(--gold); }
+
+        /* ════════════════════════════════
+           SCROLL REVEAL
+        ════════════════════════════════ */
+        .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity .6s ease, transform .6s ease;
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: none;
+        }
+
+        /* ════════════════════════════════
+           RESPONSIVE
+        ════════════════════════════════ */
+        @media (max-width: 900px) {
+            .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+            .about-image-wrap { max-width: 420px; margin: 0 auto; }
+            .about-badge { right: 0; }
+            .contact-layout { grid-template-columns: 1fr; gap: 3rem; }
+        }
         @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            nav ul {
-                margin-top: 1rem;
-                justify-content: center;
-            }
-            
-            nav ul li {
-                margin: 0 1rem;
-            }
-            
-            .about-content {
-                grid-template-columns: 1fr;
-            }
+            nav { display: none; position: fixed; inset: 0; top: 60px; background: var(--stone); flex-direction: column; justify-content: center; align-items: center; gap: 2.5rem; z-index: 800; }
+            nav.open { display: flex; }
+            nav a { font-size: 1.1rem; }
+            .hamburger { display: flex; }
+            .hero-stats { flex-wrap: wrap; gap: 1.5rem; }
+            .form-row { grid-template-columns: 1fr; }
+            .footer-inner { flex-direction: column; text-align: center; }
+            .footer-right { flex-wrap: wrap; justify-content: center; }
+            .process-steps::before { display: none; }
         }
+
+        /* ── BADGE PULSE ── */
+        @keyframes pulse-gold {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(201,168,76,.4); }
+            50% { box-shadow: 0 0 0 10px rgba(201,168,76,0); }
+        }
+        .pulse { animation: pulse-gold 2.5s infinite; }
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <header>
-        <div class="container header-content">
-            <div class="logo">EREBOR <span>Software</span></div>
-            <nav>
-                <ul>
-                    <li><a href="#home">Início</a></li>
-                    <li><a href="#services">Serviços</a></li>
-                    <li><a href="#about">Sobre</a></li>
-                    <li><a href="#contact">Contato</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
 
-    <section id="home" class="hero">
-        <div class="container">
-            <h1>Soluções Tecnológicas Sob Medida</h1>
-            <p>Da Montanha de Erebor, trazemos a excelência em desenvolvimento de software para automatizar e potencializar seu negócio.</p>
-            <a href="#contact" class="btn">Fale Conosco</a>
-        </div>
-    </section>
+<!-- ══ HEADER ══ -->
+<header id="site-header">
+    <div class="container header-inner">
+        <a href="#home" class="logo">
+            <div class="logo-icon">E</div>
+            EREBOR <em>Software</em>
+        </a>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
+        <nav id="main-nav">
+            <a href="#services">Serviços</a>
+            <a href="#projects">Projetos</a>
+            <a href="#about">Sobre</a>
+            <a href="#stack">Tecnologias</a>
+            <a href="#contact" class="nav-cta">Fale Conosco</a>
+        </nav>
+    </div>
+</header>
 
-    <section id="services" class="container">
-        <h2 class="section-title">Nossos Serviços</h2>
-        <div class="services">
-            <div class="service-card">
-                <i class="fas fa-code icon"></i>
-                <h3>Desenvolvimento Personalizado</h3>
-                <p>Sistemas exclusivos desenvolvidos para atender às necessidades específicas do seu negócio, garantindo eficiência operacional e vantagem competitiva.</p>
+<!-- ══ HERO ══ -->
+<section id="home" class="hero">
+    <div class="hero-mountain"></div>
+    <div class="hero-bg"></div>
+    <div class="hero-rune">
+        <svg viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <polygon points="200,20 380,110 380,290 200,380 20,290 20,110" stroke="white" stroke-width="1"/>
+            <polygon points="200,60 340,130 340,270 200,340 60,270 60,130" stroke="white" stroke-width="0.5"/>
+            <line x1="200" y1="20" x2="200" y2="380" stroke="white" stroke-width="0.5"/>
+            <line x1="20" y1="110" x2="380" y2="290" stroke="white" stroke-width="0.5"/>
+            <line x1="380" y1="110" x2="20" y2="290" stroke="white" stroke-width="0.5"/>
+            <circle cx="200" cy="200" r="60" stroke="white" stroke-width="0.5"/>
+            <circle cx="200" cy="200" r="120" stroke="white" stroke-width="0.3"/>
+        </svg>
+    </div>
+
+    <div class="container">
+        <div class="hero-content">
+            <div class="hero-eyebrow">Santa Rita do Sapucaí · MG</div>
+            <h1>
+                Software que<br>
+                <em>transforma negócios</em>
+            </h1>
+            <p class="hero-desc">
+                Desenvolvemos sistemas sob medida, automatizamos processos e integramos plataformas — com a solidez e precisão que seu negócio merece.
+            </p>
+            <div class="hero-actions">
+                <a href="#contact" class="btn btn-primary">
+                    <i class="fas fa-comment-dots"></i> Iniciar Projeto
+                </a>
+                <a href="#projects" class="btn btn-outline">
+                    <i class="fab fa-github"></i> Ver Projetos
+                </a>
             </div>
-            <div class="service-card">
-                <i class="fas fa-robot icon"></i>
+        </div>
+
+        <div class="hero-stats reveal">
+            <div>
+                <div class="stat-num">3+</div>
+                <div class="stat-label">Anos de experiência</div>
+            </div>
+            <div>
+                <div class="stat-num">100%</div>
+                <div class="stat-label">Projetos entregues</div>
+            </div>
+            <div>
+                <div class="stat-num">∞</div>
+                <div class="stat-label">Suporte contínuo</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══ SERVICES ══ -->
+<section id="services" class="services-section">
+    <div class="container">
+        <p class="section-label">O que fazemos</p>
+        <h2 class="section-title">Nossos <span>Serviços</span></h2>
+        <div class="divider"></div>
+
+        <div class="services-grid">
+            <div class="service-card reveal">
+                <div class="service-icon"><i class="fas fa-code"></i></div>
+                <h3>Desenvolvimento Sob Medida</h3>
+                <p>Sistemas criados do zero para atender exatamente as necessidades do seu negócio — sem soluções genéricas, sem desperdício.</p>
+                <div class="service-tags">
+                    <span class="tag">Web Apps</span>
+                    <span class="tag">APIs REST</span>
+                    <span class="tag">Dashboards</span>
+                </div>
+            </div>
+
+            <div class="service-card reveal">
+                <div class="service-icon"><i class="fas fa-robot"></i></div>
                 <h3>Automação de Processos</h3>
-                <p>Soluções inteligentes para automatizar tarefas repetitivas, reduzindo erros, custos e aumentando significativamente a produtividade.</p>
+                <p>Eliminamos tarefas repetitivas com bots, scripts inteligentes e integrações que trabalham por você 24h por dia.</p>
+                <div class="service-tags">
+                    <span class="tag">RPA</span>
+                    <span class="tag">Bots</span>
+                    <span class="tag">Schedulers</span>
+                </div>
             </div>
-            <div class="service-card">
-                <i class="fas fa-project-diagram icon"></i>
-                <h3>Sistemas Integrados</h3>
-                <p>Plataformas que conectam todas as áreas da sua empresa, proporcionando visão unificada e tomada de decisão estratégica em tempo real.</p>
+
+            <div class="service-card reveal">
+                <div class="service-icon"><i class="fas fa-plug"></i></div>
+                <h3>Integrações & APIs</h3>
+                <p>Conectamos sistemas isolados — ERP, CRM, e-commerce, pagamentos — em uma única plataforma coesa e eficiente.</p>
+                <div class="service-tags">
+                    <span class="tag">Webhooks</span>
+                    <span class="tag">ETL</span>
+                    <span class="tag">Microserviços</span>
+                </div>
+            </div>
+
+            <div class="service-card reveal">
+                <div class="service-icon"><i class="fas fa-chart-line"></i></div>
+                <h3>Análise & Relatórios</h3>
+                <p>Transformamos dados brutos em painéis visuais e relatórios automatizados para decisões mais rápidas e embasadas.</p>
+                <div class="service-tags">
+                    <span class="tag">BI</span>
+                    <span class="tag">KPIs</span>
+                    <span class="tag">Exportação PDF/Excel</span>
+                </div>
+            </div>
+
+            <div class="service-card reveal">
+                <div class="service-icon"><i class="fas fa-mobile-alt"></i></div>
+                <h3>Apps Mobile & PWA</h3>
+                <p>Aplicativos leves e responsivos que funcionam em qualquer dispositivo, com ou sem conexão à internet.</p>
+                <div class="service-tags">
+                    <span class="tag">PWA</span>
+                    <span class="tag">React Native</span>
+                    <span class="tag">Offline-first</span>
+                </div>
+            </div>
+
+            <div class="service-card reveal">
+                <div class="service-icon"><i class="fas fa-shield-alt"></i></div>
+                <h3>Manutenção & Suporte</h3>
+                <p>Monitoramento contínuo, atualizações de segurança e suporte ágil para manter seu sistema sempre no ar.</p>
+                <div class="service-tags">
+                    <span class="tag">SLA</span>
+                    <span class="tag">Monitoramento</span>
+                    <span class="tag">CI/CD</span>
+                </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <section id="about" class="about">
-        <div class="container">
-            <h2 class="section-title">Sobre a Erebor</h2>
-            <div class="about-content">
-                <div class="about-text">
-                    <h2>Lucas D'anconia Desenvolvimento de Software LTDA</h2>
-                    <p>Inspirados na lendária montanha dos tesouros, a Erebor representa nossa busca pela excelência em desenvolvimento de software. Somos especialistas em criar soluções tecnológicas que transformam desafios empresariais em vantagens competitivas.</p>
-                    <p>Com metodologias ágeis e tecnologias modernas, construímos sistemas robustos e escaláveis que se adaptam ao crescimento do seu negócio, sempre com a qualidade e durabilidade que nosso nome representa.</p>
-                    <p>Nossa missão é ser a fortaleza tecnológica que protege e potencializa seu negócio, entregando não apenas software, mas soluções estratégicas que fazem a diferença.</p>
+<!-- ══ PROJECTS ══ -->
+<section id="projects" class="projects-section">
+    <div class="container">
+        <div class="projects-header">
+            <div>
+                <p class="section-label">GitHub</p>
+                <h2 class="section-title">Projetos <span>Recentes</span></h2>
+            </div>
+            <a href="https://github.com/euarouca" target="_blank" rel="noopener" class="projects-link">
+                Ver todos no GitHub <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+
+        <div class="projects-grid" id="github-projects">
+            <!-- Skeletons while loading -->
+            <div class="project-card">
+                <div class="skeleton" style="height:14px;width:40%;margin-bottom:1rem"></div>
+                <div class="skeleton" style="height:18px;width:70%;margin-bottom:.8rem"></div>
+                <div class="skeleton" style="height:12px;width:100%;margin-bottom:.4rem"></div>
+                <div class="skeleton" style="height:12px;width:80%"></div>
+            </div>
+            <div class="project-card">
+                <div class="skeleton" style="height:14px;width:40%;margin-bottom:1rem"></div>
+                <div class="skeleton" style="height:18px;width:60%;margin-bottom:.8rem"></div>
+                <div class="skeleton" style="height:12px;width:100%;margin-bottom:.4rem"></div>
+                <div class="skeleton" style="height:12px;width:75%"></div>
+            </div>
+            <div class="project-card">
+                <div class="skeleton" style="height:14px;width:40%;margin-bottom:1rem"></div>
+                <div class="skeleton" style="height:18px;width:80%;margin-bottom:.8rem"></div>
+                <div class="skeleton" style="height:12px;width:100%;margin-bottom:.4rem"></div>
+                <div class="skeleton" style="height:12px;width:65%"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══ ABOUT ══ -->
+<section id="about" class="about-section">
+    <div class="container">
+        <div class="about-grid">
+            <div class="about-image-wrap reveal">
+                <img
+                    src="erebor.png"
+                    alt="Erebor — A Montanha Solitária"
+                    class="about-img"
+                    onerror="this.src='https://images.unsplash.com/photo-1519681393784-d120267933ba?w=600&q=80'; this.onerror=null;"
+                >
+                <div class="about-badge pulse">
+                    <strong>2022</strong>
+                    <small>FUNDAÇÃO</small>
                 </div>
-                <div class="about-image">
-                    <img src="https://i.pinimg.com/736x/db/b3/51/dbb35136c6d42522f986435ddae3bff4.jpg" alt="Erebor Software Solutions" style="width:70%; border-radius:8px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
+            </div>
+
+            <div class="about-text reveal">
+                <p class="section-label">Quem somos</p>
+                <h2>Lucas D'anconia</h2>
+                <p class="about-company">Lucas D'anconia Desenvolvimento de Software LTDA</p>
+
+                <p>Inspirados na lendária montanha dos tesouros, a Erebor representa nossa busca pela excelência em cada linha de código. Somos uma software house especializada em criar soluções que transformam desafios empresariais em vantagens reais.</p>
+
+                <p>Com metodologias ágeis e tecnologias modernas, construímos sistemas robustos e escaláveis que acompanham o crescimento do seu negócio — com a qualidade e durabilidade que nosso nome representa.</p>
+
+                <ul class="about-items">
+                    <li><i class="fas fa-check-circle"></i> Atendimento personalizado e próximo ao cliente</li>
+                    <li><i class="fas fa-check-circle"></i> Entregas dentro do prazo e do orçamento</li>
+                    <li><i class="fas fa-check-circle"></i> Código limpo, documentado e escalável</li>
+                    <li><i class="fas fa-check-circle"></i> Suporte pós-entrega incluso</li>
+                </ul>
+
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="lbl">CNPJ</div>
+                        <div class="val">59.340.501/0001-60</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="lbl">Fundada em</div>
+                        <div class="val">2022</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="lbl">Localização</div>
+                        <div class="val">Santa Rita do Sapucaí, MG</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="lbl">Horário</div>
+                        <div class="val">Seg–Sex, 9h–17h</div>
+                    </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <section id="contact" class="contact">
-        <div class="container">
-            <h2 class="section-title">Entre em Contato</h2>
-            
-            <div class="contact-info">
-                <div class="contact-card">
-                    <i class="fas fa-phone-alt"></i>
-                    <h3>Telefone</h3>
-                    <p>+55 (35) 99251-0098</p>
-                </div>
-                <div class="contact-card">
-                    <i class="fas fa-envelope"></i>
-                    <h3>E-mail</h3>
-                    <p>contact@lucasdanconia.com</p>
-                </div>
-                <div class="contact-card">
-                    <i class="fas fa-clock"></i>
-                    <h3>Horário Comercial</h3>
-                    <p>Segunda a Sexta<br>9:00 - 17:00</p>
-                </div>
+<!-- ══ PROCESS ══ -->
+<section class="process-section">
+    <div class="container">
+        <p class="section-label">Como trabalhamos</p>
+        <h2 class="section-title">Nosso <span>Processo</span></h2>
+        <div class="divider"></div>
+
+        <div class="process-steps">
+            <div class="step reveal">
+                <div class="step-num">01</div>
+                <h3>Descoberta</h3>
+                <p>Entendemos seu negócio, mapeamos problemas e definimos o escopo real do projeto.</p>
+            </div>
+            <div class="step reveal">
+                <div class="step-num">02</div>
+                <h3>Proposta</h3>
+                <p>Enviamos uma proposta clara com prazo, tecnologias e investimento detalhados.</p>
+            </div>
+            <div class="step reveal">
+                <div class="step-num">03</div>
+                <h3>Desenvolvimento</h3>
+                <p>Iterações semanais com demonstrações reais — você acompanha cada etapa.</p>
+            </div>
+            <div class="step reveal">
+                <div class="step-num">04</div>
+                <h3>Entrega</h3>
+                <p>Deploy, treinamento da equipe, documentação e suporte no pós-lançamento.</p>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <footer>
-        <div class="container">
-            <div class="footer-logo">EREBOR <span>Software</span></div>
-            
-            <div class="footer-info">
-                <p><strong>Razão Social:</strong> Lucas D'anconia Desenvolvimento de Software LTDA</p>
-                <p><strong>CNPJ:</strong> 59.340.501/0001-60 | <strong>Fundada em:</strong> 2022</p>
-                <p><i class="fas fa-phone"></i> +55 (35) 99251-0098 | <i class="fas fa-envelope"></i> contact@lucasdanconia.com</p>
-            </div>
-            
-            <div class="social-links">
-                <a href="https://github.com/euarouca" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i></a>
-                <a href="https://www.linkedin.com/in/lucas-arouca-698a79247/" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin"></i></a>
-            </div>
-            
-            <p>&copy; 2025 Erebor - Todos os direitos reservados</p>
+<!-- ══ STACK ══ -->
+<section id="stack" class="stack-section">
+    <div class="container">
+        <p class="section-label">Ferramentas</p>
+        <h2 class="section-title">Tecnologias que <span>dominamos</span></h2>
+        <div class="divider"></div>
+
+        <div class="stack-grid reveal">
+            <span class="stack-pill"><i class="fab fa-python"></i> Python</span>
+            <span class="stack-pill"><i class="fab fa-js-square"></i> JavaScript</span>
+            <span class="stack-pill"><i class="fab fa-react"></i> React</span>
+            <span class="stack-pill"><i class="fas fa-server"></i> Node.js</span>
+            <span class="stack-pill"><i class="fas fa-database"></i> PostgreSQL</span>
+            <span class="stack-pill"><i class="fas fa-database"></i> MongoDB</span>
+            <span class="stack-pill"><i class="fab fa-docker"></i> Docker</span>
+            <span class="stack-pill"><i class="fab fa-github"></i> GitHub Actions</span>
+            <span class="stack-pill"><i class="fas fa-cloud"></i> Vercel / Railway</span>
+            <span class="stack-pill"><i class="fas fa-bolt"></i> FastAPI</span>
+            <span class="stack-pill"><i class="fas fa-fire"></i> Firebase</span>
+            <span class="stack-pill"><i class="fas fa-robot"></i> Automações n8n</span>
         </div>
-    </footer>
+    </div>
+</section>
 
-    <script>
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
-            const formMessage = document.getElementById('formMessage');
-            formMessage.textContent = 'Enviando sua mensagem...';
-            formMessage.className = 'form-message';
-            formMessage.style.display = 'block';
-            
-            // Você pode adicionar aqui uma lógica adicional de validação se quiser
-            // O envio real será tratado pelo FormSubmit.co
-        });
-    </script>
+<!-- ══ CONTACT ══ -->
+<section id="contact" class="contact-section">
+    <div class="container">
+        <p class="section-label">Vamos conversar</p>
+        <h2 class="section-title">Entre em <span>Contato</span></h2>
+        <div class="divider"></div>
+
+        <div class="contact-layout">
+            <!-- Info -->
+            <div class="reveal">
+                <div class="contact-info-card">
+                    <div class="contact-icon"><i class="fas fa-phone-alt"></i></div>
+                    <div>
+                        <h4>Telefone / WhatsApp</h4>
+                        <a href="https://wa.me/5535992510098" target="_blank">+55 (35) 99251-0098</a>
+                    </div>
+                </div>
+                <div class="contact-info-card">
+                    <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                    <div>
+                        <h4>E-mail</h4>
+                        <a href="mailto:contact@lucasdanconia.com">contact@lucasdanconia.com</a>
+                    </div>
+                </div>
+                <div class="contact-info-card">
+                    <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+                    <div>
+                        <h4>Localização</h4>
+                        <p>Santa Rita do Sapucaí, MG — Brasil</p>
+                    </div>
+                </div>
+                <div class="contact-info-card">
+                    <div class="contact-icon"><i class="fas fa-clock"></i></div>
+                    <div>
+                        <h4>Horário Comercial</h4>
+                        <p>Segunda a Sexta, 9h–17h</p>
+                    </div>
+                </div>
+
+                <div class="social-row">
+                    <a href="https://github.com/euarouca" target="_blank" rel="noopener" class="social-btn" title="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/lucas-arouca-698a79247/" target="_blank" rel="noopener" class="social-btn" title="LinkedIn">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="https://wa.me/5535992510098" target="_blank" rel="noopener" class="social-btn" title="WhatsApp">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Form -->
+            <div class="contact-form reveal">
+                <form id="contactForm" action="https://formsubmit.co/contact@lucasdanconia.com" method="POST">
+                    <!-- FormSubmit config -->
+                    <input type="hidden" name="_subject" value="Novo contato via Erebor Software">
+                    <input type="hidden" name="_captcha" value="false">
+                    <input type="hidden" name="_template" value="table">
+                    <input type="text" name="_honey" style="display:none">
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="name">Nome *</label>
+                            <input type="text" id="name" name="name" placeholder="Seu nome" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">E-mail *</label>
+                            <input type="email" id="email" name="email" placeholder="seu@email.com" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">WhatsApp / Telefone</label>
+                        <input type="tel" id="phone" name="phone" placeholder="(35) 99999-9999">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="service">Tipo de Projeto</label>
+                        <select id="service" name="service">
+                            <option value="">Selecione...</option>
+                            <option>Desenvolvimento Sob Medida</option>
+                            <option>Automação de Processos</option>
+                            <option>Integração de Sistemas</option>
+                            <option>App Mobile / PWA</option>
+                            <option>Análise & Relatórios</option>
+                            <option>Suporte & Manutenção</option>
+                            <option>Outro</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Mensagem *</label>
+                        <textarea id="message" name="message" placeholder="Descreva brevemente seu projeto ou dúvida..." required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-submit">
+                        <i class="fas fa-paper-plane"></i> &nbsp;Enviar Mensagem
+                    </button>
+
+                    <div class="form-feedback" id="formFeedback"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+    <div class="container footer-inner">
+        <div class="footer-logo">EREBOR <em>Software</em></div>
+        <div class="footer-meta">
+            <strong>Lucas D'anconia Desenvolvimento de Software LTDA</strong><br>
+            CNPJ: 59.340.501/0001-60 · Fundada em 2022 · Santa Rita do Sapucaí, MG<br>
+            &copy; 2025 Erebor Software — Todos os direitos reservados
+        </div>
+        <div class="footer-right">
+            <a href="https://github.com/euarouca" target="_blank" rel="noopener"><i class="fab fa-github"></i> GitHub</a>
+            <a href="https://www.linkedin.com/in/lucas-arouca-698a79247/" target="_blank" rel="noopener"><i class="fab fa-linkedin-in"></i> LinkedIn</a>
+        </div>
+    </div>
+</footer>
+
+<!-- ════════════════════════════════
+     SCRIPTS
+════════════════════════════════ -->
+<script>
+/* ── Header shrink on scroll ── */
+const header = document.getElementById('site-header');
+window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 60);
+});
+
+/* ── Mobile nav ── */
+const hamburger = document.getElementById('hamburger');
+const nav = document.getElementById('main-nav');
+hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    nav.classList.toggle('open');
+});
+nav.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+        hamburger.classList.remove('open');
+        nav.classList.remove('open');
+    });
+});
+
+/* ── Scroll reveal ── */
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+            setTimeout(() => e.target.classList.add('visible'), i * 80);
+            observer.unobserve(e.target);
+        }
+    });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+/* ── GitHub Projects ── */
+const LANG_COLORS = {
+    Python: '#3572A5', JavaScript: '#f1e05a', TypeScript: '#2b7489',
+    HTML: '#e34c26', CSS: '#563d7c', Shell: '#89e051',
+    Vue: '#2c3e50', 'Jupyter Notebook': '#DA5B0B'
+};
+
+async function loadProjects() {
+    const container = document.getElementById('github-projects');
+    try {
+        const res = await fetch('https://api.github.com/users/euarouca/repos?sort=updated&per_page=6');
+        if (!res.ok) throw new Error('API error');
+        const repos = await res.json();
+
+        const filtered = repos.filter(r => !r.fork).slice(0, 6);
+
+        container.innerHTML = filtered.map(repo => {
+            const color = LANG_COLORS[repo.language] || '#8a9ab5';
+            const desc = repo.description || 'Sem descrição disponível.';
+            return `
+            <div class="project-card reveal">
+                <div class="project-card-top">
+                    <div class="project-lang">
+                        <span class="lang-dot" style="background:${color}"></span>
+                        ${repo.language || 'N/A'}
+                    </div>
+                    <div class="project-links">
+                        <a href="${repo.html_url}" target="_blank" rel="noopener" title="Ver no GitHub"><i class="fab fa-github"></i></a>
+                        ${repo.homepage ? `<a href="${repo.homepage}" target="_blank" rel="noopener" title="Ver demo"><i class="fas fa-external-link-alt"></i></a>` : ''}
+                    </div>
+                </div>
+                <div class="project-name">${repo.name}</div>
+                <div class="project-desc">${desc}</div>
+                <div class="project-stats">
+                    <span><i class="fas fa-star"></i> ${repo.stargazers_count}</span>
+                    <span><i class="fas fa-code-branch"></i> ${repo.forks_count}</span>
+                    <span><i class="fas fa-eye"></i> ${repo.watchers_count}</span>
+                </div>
+            </div>`;
+        }).join('');
+
+        // Re-observe new cards
+        document.querySelectorAll('.project-card.reveal').forEach(el => observer.observe(el));
+
+    } catch (err) {
+        container.innerHTML = `
+        <div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--ash);">
+            <i class="fab fa-github" style="font-size:2rem;margin-bottom:1rem;display:block"></i>
+            <p>Não foi possível carregar os projetos agora.</p>
+            <a href="https://github.com/euarouca" target="_blank" rel="noopener"
+               style="color:var(--gold);margin-top:.8rem;display:inline-block">
+               Ver no GitHub <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>`;
+    }
+}
+loadProjects();
+
+/* ── Contact form feedback ── */
+const form = document.getElementById('contactForm');
+const feedback = document.getElementById('formFeedback');
+
+form.addEventListener('submit', function(e) {
+    const btn = form.querySelector('.btn-submit');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> &nbsp;Enviando...';
+
+    // FormSubmit handles the POST; show optimistic message
+    feedback.className = 'form-feedback success';
+    feedback.innerHTML = '<i class="fas fa-check-circle"></i> Mensagem enviada! Retornaremos em breve.';
+
+    setTimeout(() => {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-paper-plane"></i> &nbsp;Enviar Mensagem';
+    }, 4000);
+});
+</script>
 </body>
 </html>
